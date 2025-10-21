@@ -1,0 +1,56 @@
+{
+  // This file is used to generate assets for the blog
+  "imageModel": "stability-ai/sdxl",
+  "displayTarget": "browser",
+  "width": 512,
+  "height": 512,
+  "promptTemplate": "ui-icon",
+  "images": [
+    {
+      "description": "Abstract timeline with converging paths and question marks, representing shrinking AGI predictions",
+      "promptTemplate": "artistic",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "description": "Futuristic autonomous AI agents working simultaneously across multiple interconnected systems and tasks",
+      "promptTemplate": "artistic",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "description": "Abstract visualization of massive capital flows and investment mountains with AI at the center",
+      "promptTemplate": "artistic",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "description": "Quantum computer circuits merging with neural network patterns, representing quantum-AI convergence",
+      "promptTemplate": "artistic",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "description": "European regulatory framework concept with balanced scales and AI transparency elements",
+      "promptTemplate": "artistic",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "description": "Laboratory scene with AI-assisted scientific discovery, molecular structures and research breakthrough",
+      "promptTemplate": "realistic",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "description": "Corporate landscape showing shift from rapid growth to sustainable, quality-focused business models",
+      "promptTemplate": "artistic",
+      "width": 1024,
+      "height": 768
+    }
+    // Available templates: ui-icon, flat-icon, outline-icon, realistic, artistic, custom
+    // Use "promptArg" for complete custom prompts (overrides templates)
+    // Use "promptTemplate" + "description" for template-based generation
+    // Images are for blog featured images at /assets/images/
+  ]
+}
