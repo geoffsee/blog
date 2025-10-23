@@ -47,7 +47,14 @@
       "promptTemplate": "artistic",
       "width": 1024,
       "height": 768
+    },
+    {
+      "description": "Futuristic arena with advanced robots engaged in strategic combat, showcasing AI-powered battle tactics",
+      "promptTemplate": "artistic",
+      "width": 1024,
+      "height": 768
     }
+
     // Available templates: ui-icon, flat-icon, outline-icon, realistic, artistic, custom
     // Use "promptArg" for complete custom prompts (overrides templates)
     // Use "promptTemplate" + "description" for template-based generation
