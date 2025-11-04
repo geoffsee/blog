@@ -1,1 +1,5 @@
 .idea
+node_modules/
+.gsio-memory/
+.gsio-todos.json
+bun.lock
