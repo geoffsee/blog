@@ -47,7 +47,7 @@ async function generateBlogPost(gitActivity: any) {
 
   // Read example posts to understand style
   const examplePost1 = await Bun.file("./posts/2025-11-03-simple-wins-matter.md").text();
-  const examplePost2 = await Bun.file("./posts/2025-11-03-building-exechub.md").text();
+  const examplePost2 = await Bun.file("./posts/2025-11-04-embracing-the-chaos-lessons-from-building-the-blog-agent-bot.md").text();
 
   const systemPrompt = `You are an expert technical blog post writer. You analyze git commit history and create insightful, well-structured blog posts similar to the examples provided.
 
