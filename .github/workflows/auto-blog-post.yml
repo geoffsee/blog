@@ -51,11 +51,8 @@ jobs:
         if: steps.check_changes.outputs.changes == 'true'
         run: |
           git add posts/*.md assets/images/*.png
-          git commit -m "Auto-generate blog post from recent git activity
-
-          🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-          Co-Authored-By: Blog Agent <bot@geoffsee.dev>"
+          git commit -m "Auto-generate blog post from recent git activity \
+          Co-Authored-By: Blog Agent <bot@seemueller.io>"
           git push
 
       - name: No changes detected

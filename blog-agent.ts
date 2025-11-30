@@ -2,7 +2,7 @@
 
 import OpenAI from "openai";
 import { execSync } from "child_process";
-import { writeFileSync } from "fs";
+import { writeFileSync, readdirSync } from "fs";
 import { join } from "path";
 import { createWriteStream } from "fs";
 import { Readable } from "stream";
@@ -41,15 +41,45 @@ async function getGitActivity() {
   }
 }
 
+// Get example posts dynamically from the posts directory
+async function getExamplePosts(): Promise<string[]> {
+  try {
+    const postsDir = "./posts";
+    const files = readdirSync(postsDir)
+      .filter(f => f.endsWith(".md"))
+      .sort()
+      .reverse() // Most recent first (assuming date-prefixed filenames)
+      .slice(0, 2); // Get up to 2 examples
+
+    const examples: string[] = [];
+    for (const file of files) {
+      try {
+        const content = await Bun.file(join(postsDir, file)).text();
+        examples.push(content);
+      } catch {
+        // Skip files that can't be read
+      }
+    }
+    return examples;
+  } catch {
+    return []; // No examples available
+  }
+}
+
 // Generate blog post using OpenAI agent
 async function generateBlogPost(gitActivity: any) {
   console.log("Generating blog post with OpenAI...");
 
-  // Read example posts to understand style
-  const examplePost1 = await Bun.file("./posts/22025-10-22-claude-code-vs-openai-codex.md").text();
-  const examplePost2 = await Bun.file("./posts/2025-11-04-embracing-the-chaos-lessons-from-building-the-blog-agent-bot.md").text();
+  // Read example posts dynamically
+  const examples = await getExamplePosts();
 
-  const systemPrompt = `You are an expert technical blog post writer. You analyze git commit history and create insightful, well-structured blog posts similar to the examples provided.
+  let examplesSection = "";
+  if (examples.length > 0) {
+    examplesSection = "\n\nHere are example posts for style reference:\n\n" +
+      examples.map((ex, i) => `EXAMPLE ${i + 1}:\n${ex}`).join("\n\n");
+  }
+
+  const systemPrompt = `You are an expert technical blog post writer. You analyze git commit history and create insightful, well-structured blog posts.
 
 Your blog posts should:
 1. Have YAML frontmatter with: title, date, author, tags, categories, excerpt, published, featured_image
@@ -58,15 +88,7 @@ Your blog posts should:
 4. Include code snippets where relevant
 5. Have a philosophical angle that connects technical decisions to broader principles
 6. Be honest about tradeoffs and challenges
-7. Use the current date (${new Date().toISOString().split('T')[0]})
-
-Here are two example posts for style reference:
-
-EXAMPLE 1:
-${examplePost1}
-
-EXAMPLE 2:
-${examplePost2}`;
+7. Use the current date (${new Date().toISOString().split('T')[0]})${examplesSection}`;
 
   const userPrompt = `Based on the following git activity for ${gitActivity.user}, create a compelling technical blog post that tells the story of what was built, the challenges faced, and the lessons learned.
 
@@ -87,13 +109,13 @@ Generate the complete blog post in markdown format with YAML frontmatter.`;
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4-turbo-preview",
+      model: "gpt-4.1",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
       ],
       temperature: 0.7,
-      max_tokens: 4000,
+      max_completion_tokens: 4000,
     });
 
     return completion.choices[0].message.content;
