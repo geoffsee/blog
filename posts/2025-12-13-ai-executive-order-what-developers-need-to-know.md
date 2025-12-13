@@ -6,7 +6,7 @@ tags: ["ai", "regulation", "policy", "startups", "legal"]
 categories: ["AI Policy", "Software Development"]
 excerpt: "A new executive order aims to preempt state AI laws with a federal framework. Here's what it means for AI developers and startups."
 published: true
-featured_image: "/assets/images/2025-12-13-ai-executive-order-what-developers-need-to-know.png"
+featured_image: "/assets/images/ai-executive-order.png"
 ---
 
 # AI Executive Order: What Developers Need to Know
