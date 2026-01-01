@@ -2,9 +2,9 @@
 title: "Generics, Stubs, and the Points Machine"
 date: 2025-12-31
 author: "Geoff"
-tags: ["generics", "types", "testing", "abstractions", "learning", "rust", "typescript"]
+tags: ["generics", "extensibility", "adaptability", "types", "testing", "abstractions", "learning", "rust", "typescript"]
 categories: ["Software Development"]
-excerpt: "A metaphor that made generics click: constraints are rules, compilers and tests are reward functions, and stubs are engineered shortcuts to the same rewards."
+excerpt: "A metaphor that made generics click: constraints are rules, compilers and tests are reward functions, and extensibility and adaptability are what you’re really buying."
 published: true
 featured_image: "/assets/images/generated-image-1767222160554.png"
 ---
@@ -19,8 +19,14 @@ It has one rule:
 
 No explanation. No taxonomy. Just feedback.
 
+That one rule is deliberately small. Small rules are extensible rules: tomorrow you can bring something new, and the machine doesn’t have to change.
+
 ## Summary
 Most explanations of generics are “correct” and still fail to teach: type parameters, polymorphism, constraints, bounds. What finally clicked for me was thinking of generics as a rule-bound system that only rewards behavior, not identity.
+
+Extensibility is the payoff. You don’t write a generic so you can reuse today’s types; you write it so tomorrow’s types can plug in without you rewriting the function.
+
+Adaptability is the companion benefit: when requirements shift, you can swap implementations and stay within the same constraint, instead of rewriting the whole surface area.
 
 Once you see the reward, stubs stop feeling like a testing trick and start feeling inevitable.
 
@@ -40,6 +46,8 @@ The moment the abstraction locks in is the moment you realize:
 That’s the heart of a generic constraint. The machine isn’t interested in identity, provenance, or the “realness” of the thing you hand it. It only cares whether the behavior matches the rule.
 
 Depending on the language, you’ll hear this described as “behavior over identity”, “duck typing”, or “structural typing”. The labels differ; the move is the same.
+
+It’s also the Open/Closed Principle in miniature: open for extension (new rattling things), closed for modification (no new branches in the machine).
 
 ## Mapping the metaphor to actual code
 In Rust, the “rule card” is a trait bound:
@@ -69,6 +77,10 @@ Different languages, same shape:
 - The constraint says: “I do care what you can do.”
 - The reward says: “Prove it.”
 
+Notice where extensibility lives: you extend the system by adding implementations that satisfy the constraint, not by editing the generic function to recognize new concrete cases.
+
+And notice where adaptability lives: you can change the implementation behind the behavior (or replace it entirely) without changing the code that depends on the constraint.
+
 ## Why stubs show up naturally
 Now the interesting part: you run out of noisy objects.
 
@@ -96,7 +108,7 @@ const boxOfBeads = { shake: () => true };
 
 The key is that nothing about the system can distinguish “real” from “fake” beyond behavior. If the only thing you measure is behavior, behavior is all that’s real.
 
-> Generics work because they reward correct behavior no matter what produces it. Stubs work because they’re built to earn the same reward.
+> Generics buy extensibility and adaptability because they reward correct behavior no matter what produces it. Stubs work because they’re built to earn the same reward.
 
 ## The uncomfortable implication (and why it matters)
 If you’ve ever looked at a test suite and felt that vague anxiety — “this passes, but I don’t trust it” — this is why.
@@ -108,6 +120,8 @@ A compiler is a reward function.
 If the reward is too easy, you’ll build impressive boxes of beads that don’t survive contact with reality.
 
 If the reward is too noisy, nobody learns the abstraction; they just memorize edge cases and cargo-cult the incantations that make CI go green.
+
+And if the reward is over-specified, you’ll accidentally delete extensibility and adaptability: the code can’t evolve because the “points” are tied to incidental details.
 
 ### A tiny “bad reward” example
 Here’s how this shows up in tests.
@@ -135,13 +149,12 @@ If your production code needs to handle timeouts, empty results, or parameter co
 If you speak reinforcement learning: this is reward hacking. The system learned how to get points, not how to solve the real task.
 
 ### A slightly better reward
-You don’t need a real database to reward more meaningful behavior. You can reward the interaction:
+You don’t need a real database to reward more meaningful behavior. Reward the interaction at the boundary—enough to prevent bead-box stubs, not so much that refactors become failures:
 
 ```ts
 test("queries by id", async () => {
   const fakeDb: Db = {
-    query: async (sql, params) => {
-      expect(sql.toLowerCase()).toContain("where id = ?");
+    query: async (_sql, params) => {
       expect(params).toEqual([1]);
       return [{ id: 1 }];
     },
@@ -152,9 +165,11 @@ test("queries by id", async () => {
 });
 ```
 
+It’s still a stub, but it forces the caller to behave. And because it doesn’t pin the exact query text, it keeps the implementation extensible.
+
 ## The real question
 When I’m designing an interface, writing tests, or choosing a generic bound, I’m trying to ask a better version of the same question:
 
 > What behavior am I rewarding?
 
-Because whatever it is, that’s what the system will optimize for — whether it’s a person, a team, or a machine. It’s worth asking before you ship, because someone will absolutely optimize it.
+Because whatever it is, that’s what the system will optimize for — whether it’s a person, a team, or a machine. It’s worth asking before you ship, because someone will absolutely optimize it, and your future extensibility and adaptability depend on where you put the points.
