@@ -6,7 +6,7 @@ tags: ["Claude Code", "AI Development", "Developer Tools", "Human-AI Collaborati
 categories: ["AI", "Development", "Philosophy"]
 excerpt: "Claude Code isn't just another AI coding assistant. It represents a fundamental shift in how humans and machines collaborate on software—moving from suggestion to partnership."
 published: true
-featured_image: "/assets/images/2026-01-08-beyond-the-prompt-what-claude-code-represents.png"
+featured_image: "/assets/images/beyond-the-prompt-what-claude-code-represents.png"
 ---
 
 ## Summary
