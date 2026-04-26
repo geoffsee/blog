@@ -4,3 +4,8 @@ node_modules/
 .gsio-todos.json
 bun.lock
 reference
+
+# web app build output
+web/dist/
+web/public/assets/
+web/*.tsbuildinfo
