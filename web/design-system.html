@@ -1,0 +1,956 @@
+<!--NOT AFFILIATED WITH NASA - used as a styleguide only-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Design System — NASA-inspired</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Narrow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================================
+           NASA-INSPIRED BLOG STYLE GUIDE
+           Drop the :root variables and base typography into your blog
+           and you'll have ~80% of the system applied.
+           ========================================================= */
+
+        :root {
+            /* ——— Color tokens ——— */
+            --nasa-red:       #FC3D21;   /* primary accent, used sparingly */
+            --nasa-blue:      #0B3D91;   /* secondary accent, links, callouts */
+            --ink:            #0A0A0A;   /* body text, near-black not pure */
+            --paper:          #F1ECE0;   /* warm off-white, the "printed page" */
+            --paper-bright:   #FAF7F0;
+            --rule:           #1A1A1A;   /* borders, hairlines */
+            --mute-1:         #6E6A60;   /* secondary text */
+            --mute-2:         #B8B2A4;   /* tertiary, captions */
+            --grid:           rgba(10,10,10,0.06);
+
+            /* ——— Type scale (perfect fourth, 1.333) ——— */
+            --t-xs:   0.75rem;     /* 12 */
+            --t-sm:   0.875rem;    /* 14 */
+            --t-base: 1.0625rem;   /* 17, body */
+            --t-lg:   1.25rem;     /* 20 */
+            --t-xl:   1.667rem;    /* 26 */
+            --t-2xl:  2.222rem;    /* 35 */
+            --t-3xl:  3.0rem;      /* 48 */
+            --t-4xl:  4.5rem;      /* 72 */
+            --t-display: 7.5rem;   /* 120, hero only */
+
+            /* ——— Spacing scale (8pt grid) ——— */
+            --s-1:  0.5rem;
+            --s-2:  1rem;
+            --s-3:  1.5rem;
+            --s-4:  2rem;
+            --s-5:  3rem;
+            --s-6:  4.5rem;
+            --s-7:  6rem;
+            --s-8:  9rem;
+
+            /* ——— Type families ——— */
+            --font-display: "Archivo", "Helvetica Neue", Helvetica, sans-serif;
+            --font-narrow:  "Archivo Narrow", "Archivo", sans-serif;
+            --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+            /* ——— Other ——— */
+            --maxw: 1280px;
+            --maxw-text: 68ch;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-display);
+            font-size: var(--t-base);
+            line-height: 1.55;
+            color: var(--ink);
+            background: var(--paper);
+            background-image:
+                    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+                    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+            background-size: 48px 48px;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* ——— Layout shell ——— */
+        .frame {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 0 var(--s-4);
+            position: relative;
+        }
+
+        /* ——— Doc header bar (sticky engineering header) ——— */
+        .doc-bar {
+            position: sticky; top: 0; z-index: 50;
+            background: var(--ink); color: var(--paper);
+            border-bottom: 1px solid var(--ink);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .doc-bar .frame {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 10px; padding-bottom: 10px; gap: var(--s-4);
+        }
+        .doc-bar a { color: var(--paper); text-decoration: none; opacity: .75; transition: opacity .15s; }
+        .doc-bar a:hover { opacity: 1; color: var(--nasa-red); }
+        .doc-bar .nav { display: flex; gap: var(--s-3); }
+        .doc-bar .stamp { color: var(--nasa-red); }
+
+        /* ——— Cover ——— */
+        .cover {
+            border-bottom: 1px solid var(--rule);
+            padding: var(--s-7) 0 var(--s-6);
+            position: relative;
+            overflow: hidden;
+        }
+        .cover-meta {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--s-2);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--mute-1);
+            margin-bottom: var(--s-5);
+            padding-bottom: var(--s-2);
+            border-bottom: 1px solid var(--rule);
+        }
+        .cover-meta b { color: var(--ink); display: block; font-weight: 700; }
+        .cover h1 {
+            font-family: var(--font-narrow);
+            font-weight: 800;
+            font-size: clamp(3rem, 9vw, var(--t-display));
+            line-height: 0.92;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            margin-bottom: var(--s-4);
+        }
+        .cover h1 .accent { color: var(--nasa-red); }
+        .cover .lede {
+            font-size: var(--t-lg);
+            max-width: 60ch;
+            color: var(--mute-1);
+            border-top: 1px solid var(--rule);
+            padding-top: var(--s-3);
+        }
+
+        /* Decorative registration mark in cover */
+        .reg-mark {
+            position: absolute;
+            width: 64px; height: 64px;
+            pointer-events: none;
+        }
+        .reg-mark::before, .reg-mark::after {
+            content: ''; position: absolute; background: var(--ink);
+        }
+        .reg-mark::before { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); }
+        .reg-mark::after { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); }
+        .reg-mark.tr { top: var(--s-4); right: var(--s-4); }
+        .reg-mark.bl { bottom: var(--s-4); left: var(--s-4); }
+
+        /* ——— Section ——— */
+        section.spec {
+            padding: var(--s-6) 0;
+            border-bottom: 1px solid var(--rule);
+        }
+        .section-header {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: var(--s-4);
+            align-items: baseline;
+            margin-bottom: var(--s-5);
+            padding-bottom: var(--s-2);
+            border-bottom: 1px solid var(--rule);
+        }
+        .section-num {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--nasa-red);
+            padding-top: 8px;
+        }
+        .section-title {
+            font-family: var(--font-narrow);
+            font-weight: 700;
+            font-size: clamp(1.75rem, 4vw, var(--t-2xl));
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            line-height: 1;
+        }
+        .section-sub {
+            grid-column: 2;
+            font-size: var(--t-base);
+            color: var(--mute-1);
+            max-width: var(--maxw-text);
+            margin-top: var(--s-2);
+        }
+
+        /* ——— Color swatches ——— */
+        .palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+        }
+        .swatch {
+            background: var(--paper-bright);
+            padding: var(--s-3);
+            display: flex; flex-direction: column; gap: var(--s-2);
+            min-height: 220px;
+        }
+        .swatch-chip {
+            width: 100%; height: 80px; border: 1px solid var(--rule);
+        }
+        .swatch-name {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: var(--t-sm);
+            letter-spacing: 0.04em;
+        }
+        .swatch-codes {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--mute-1);
+            line-height: 1.7;
+        }
+        .swatch-codes b { color: var(--ink); font-weight: 500; }
+        .swatch-use {
+            font-size: var(--t-sm);
+            color: var(--mute-1);
+            margin-top: auto;
+            padding-top: var(--s-2);
+            border-top: 1px dashed var(--mute-2);
+        }
+
+        /* ——— Typography specimen ——— */
+        .type-row {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: var(--s-4);
+            padding: var(--s-3) 0;
+            border-bottom: 1px dashed var(--mute-2);
+            align-items: baseline;
+        }
+        .type-row:last-child { border-bottom: 0; }
+        .type-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--mute-1);
+            line-height: 1.5;
+        }
+        .type-label b { display: block; color: var(--ink); }
+        .type-sample-h1 {
+            font-family: var(--font-narrow);
+            font-weight: 800;
+            font-size: var(--t-3xl);
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+        .type-sample-h2 {
+            font-family: var(--font-narrow);
+            font-weight: 700;
+            font-size: var(--t-2xl);
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+        }
+        .type-sample-h3 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: var(--t-xl);
+            line-height: 1.2;
+            letter-spacing: -0.005em;
+        }
+        .type-sample-body {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: var(--t-base);
+            line-height: 1.6;
+            max-width: 60ch;
+        }
+        .type-sample-cap {
+            font-family: var(--font-mono);
+            font-size: var(--t-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--mute-1);
+        }
+
+        /* ——— Components ——— */
+        .components {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--s-4);
+        }
+        @media (max-width: 720px) { .components { grid-template-columns: 1fr; } }
+
+        .panel {
+            background: var(--paper-bright);
+            border: 1px solid var(--rule);
+            padding: var(--s-4);
+            position: relative;
+        }
+        .panel-label {
+            position: absolute; top: -1px; left: -1px;
+            background: var(--ink); color: var(--paper);
+            font-family: var(--font-mono);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 8px;
+        }
+        .panel > * + * { margin-top: var(--s-2); }
+        .panel { padding-top: calc(var(--s-4) + 12px); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: var(--t-sm);
+            letter-spacing: 0.06em;
+            padding: 12px 20px;
+            text-decoration: none;
+            border: 1px solid var(--ink);
+            background: var(--ink);
+            color: var(--paper);
+            cursor: pointer;
+            transition: transform .15s ease, background .15s ease, color .15s ease;
+        }
+        .btn:hover { background: var(--nasa-red); border-color: var(--nasa-red); transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
+        .btn.btn-ghost { background: transparent; color: var(--ink); }
+        .btn.btn-ghost:hover { background: var(--ink); color: var(--paper); box-shadow: 4px 4px 0 var(--nasa-red); }
+        .btn .arrow { font-family: var(--font-mono); }
+
+        /* Links */
+        a.lnk {
+            color: var(--nasa-blue);
+            text-decoration: none;
+            border-bottom: 1px solid var(--nasa-blue);
+            padding-bottom: 1px;
+            transition: color .15s, background .15s;
+        }
+        a.lnk:hover { background: var(--nasa-blue); color: var(--paper); }
+
+        /* Callout */
+        .callout {
+            border-left: 4px solid var(--nasa-red);
+            padding: var(--s-2) var(--s-3);
+            background: rgba(252, 61, 33, 0.05);
+        }
+        .callout .tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--nasa-red);
+            font-weight: 700;
+        }
+
+        /* Blockquote */
+        blockquote {
+            border-top: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            padding: var(--s-3) 0;
+            font-family: var(--font-narrow);
+            font-weight: 500;
+            font-size: var(--t-xl);
+            line-height: 1.3;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+        }
+        blockquote cite {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--mute-1);
+            font-style: normal;
+            font-weight: 400;
+            margin-top: var(--s-2);
+        }
+        blockquote cite::before { content: "— "; }
+
+        /* Code */
+        pre.code {
+            background: var(--ink);
+            color: var(--paper);
+            padding: var(--s-3);
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            border: 1px solid var(--rule);
+        }
+        pre.code .com { color: var(--mute-2); }
+        pre.code .var { color: var(--nasa-red); }
+        pre.code .val { color: #8FB8FF; }
+
+        code.inline {
+            font-family: var(--font-mono);
+            background: var(--ink);
+            color: var(--paper);
+            padding: 2px 6px;
+            font-size: 0.9em;
+        }
+
+        /* Tag */
+        .tag-pill {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border: 1px solid var(--ink);
+            padding: 4px 8px;
+            margin-right: 4px;
+        }
+        .tag-pill.solid { background: var(--ink); color: var(--paper); }
+        .tag-pill.red { background: var(--nasa-red); border-color: var(--nasa-red); color: var(--paper); }
+
+        /* ——— Demo blog post ——— */
+        .demo-post {
+            max-width: var(--maxw-text);
+            margin: 0 auto;
+            background: var(--paper-bright);
+            border: 1px solid var(--rule);
+            padding: var(--s-5) var(--s-4);
+        }
+        .demo-post .post-meta {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--mute-1);
+            display: flex; gap: var(--s-3);
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: var(--s-2);
+            margin-bottom: var(--s-3);
+        }
+        .demo-post h1 {
+            font-family: var(--font-narrow);
+            font-weight: 800;
+            font-size: clamp(2rem, 5vw, var(--t-3xl));
+            text-transform: uppercase;
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--s-2);
+        }
+        .demo-post h1 .accent { color: var(--nasa-red); }
+        .demo-post .deck {
+            font-size: var(--t-lg);
+            color: var(--mute-1);
+            margin-bottom: var(--s-4);
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: var(--s-3);
+        }
+        .demo-post p { margin-bottom: var(--s-2); font-size: var(--t-base); line-height: 1.65; }
+        .demo-post h2 {
+            font-family: var(--font-narrow);
+            font-weight: 700;
+            font-size: var(--t-xl);
+            text-transform: uppercase;
+            letter-spacing: -0.005em;
+            margin: var(--s-4) 0 var(--s-2);
+            padding-top: var(--s-2);
+            border-top: 1px solid var(--rule);
+        }
+        .demo-post h2::before {
+            content: "§ ";
+            font-family: var(--font-mono);
+            color: var(--nasa-red);
+            font-weight: 400;
+        }
+        .demo-post .figure {
+            margin: var(--s-4) 0;
+            border: 1px solid var(--rule);
+            background: var(--ink);
+            color: var(--paper);
+            height: 240px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .demo-post .figure::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                    radial-gradient(circle at 30% 40%, rgba(252,61,33,0.4) 0%, transparent 40%),
+                    radial-gradient(circle at 70% 60%, rgba(11,61,145,0.4) 0%, transparent 40%);
+        }
+        .demo-post .figure span {
+            position: relative;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: var(--ink);
+            padding: 4px 8px;
+        }
+        .demo-post figcaption {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--mute-1);
+            margin-top: 8px;
+        }
+
+        /* ——— Footer ——— */
+        .footer {
+            background: var(--ink);
+            color: var(--paper);
+            padding: var(--s-5) 0;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .footer .frame {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: var(--s-4);
+        }
+        .footer h4 {
+            color: var(--nasa-red);
+            margin-bottom: var(--s-2);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+        .footer a { color: var(--paper); opacity: .7; text-decoration: none; display: block; padding: 4px 0; }
+        .footer a:hover { opacity: 1; color: var(--nasa-red); }
+
+        /* ——— Pull-out hero number ——— */
+        .massive-num {
+            font-family: var(--font-narrow);
+            font-weight: 900;
+            font-size: clamp(8rem, 22vw, 22rem);
+            line-height: 0.85;
+            letter-spacing: -0.04em;
+            color: var(--nasa-red);
+            pointer-events: none;
+        }
+
+        /* Utility */
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); }
+        @media (max-width: 720px) { .row-2 { grid-template-columns: 1fr; } }
+
+        .hairline { height: 1px; background: var(--rule); margin: var(--s-3) 0; }
+
+        /* Print niceties */
+        @media print {
+            body { background: white; }
+            .doc-bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============================================================
+     STICKY DOC HEADER
+     ============================================================ -->
+<header class="doc-bar">
+    <div class="frame">
+        <div><span class="stamp">●</span> Doc 76-001 · Identity Standards · Rev. 04.26.2026</div>
+        <nav class="nav">
+            <a href="#color">01 Color</a>
+            <a href="#type">02 Type</a>
+            <a href="#components">03 Components</a>
+            <a href="#post">04 Demo</a>
+            <a href="#code">05 Code</a>
+        </nav>
+    </div>
+</header>
+
+<!-- ============================================================
+     COVER
+     ============================================================ -->
+<div class="frame">
+    <section class="cover">
+        <div class="reg-mark tr"></div>
+        <div class="reg-mark bl"></div>
+
+        <div class="cover-meta">
+            <div><b>Document</b>76-001</div>
+            <div><b>Issue</b>Apr 2026</div>
+            <div><b>Classification</b>Public — Editorial</div>
+            <div><b>Authority</b>Editor-in-Chief</div>
+        </div>
+
+        <h1>
+            Blog<br>
+            Identity<br>
+            <span class="accent">Standards</span><br>
+            Manual
+        </h1>
+
+        <p class="lede">
+            A typographic and visual system for editorial publishing — adapted from
+            the modernist principles of the 1976 NASA Graphics Standards Manual.
+            Built to be copied, pasted, and shipped.
+        </p>
+    </section>
+
+    <!-- ============================================================
+         §01 COLOR
+         ============================================================ -->
+    <section class="spec" id="color">
+        <div class="section-header">
+            <div class="section-num">§ 01.00<br>Color System</div>
+            <div>
+                <h2 class="section-title">Color</h2>
+                <p class="section-sub">Two accent hues against a neutral foundation. Red signals urgency and identity; blue signals interaction. The paper tone is intentionally warm — a printed-page reference, not a screen white.</p>
+            </div>
+        </div>
+
+        <div class="palette">
+            <div class="swatch">
+                <div class="swatch-chip" style="background: var(--nasa-red);"></div>
+                <div class="swatch-name">NASA Red</div>
+                <div class="swatch-codes">
+                    <b>HEX</b> #FC3D21<br>
+                    <b>RGB</b> 252 · 61 · 33<br>
+                    <b>VAR</b> --nasa-red
+                </div>
+                <div class="swatch-use">Identity accent. Headlines, marks, key emphasis. Use sparingly — never as a body color.</div>
+            </div>
+            <div class="swatch">
+                <div class="swatch-chip" style="background: var(--nasa-blue);"></div>
+                <div class="swatch-name">NASA Blue</div>
+                <div class="swatch-codes">
+                    <b>HEX</b> #0B3D91<br>
+                    <b>RGB</b> 11 · 61 · 145<br>
+                    <b>VAR</b> --nasa-blue
+                </div>
+                <div class="swatch-use">Interactive elements. Links, focus states, secondary accents.</div>
+            </div>
+            <div class="swatch">
+                <div class="swatch-chip" style="background: var(--ink);"></div>
+                <div class="swatch-name">Ink</div>
+                <div class="swatch-codes">
+                    <b>HEX</b> #0A0A0A<br>
+                    <b>RGB</b> 10 · 10 · 10<br>
+                    <b>VAR</b> --ink
+                </div>
+                <div class="swatch-use">Body type, rules, structural elements. Near-black, never #000.</div>
+            </div>
+            <div class="swatch">
+                <div class="swatch-chip" style="background: var(--paper); border-color: var(--rule);"></div>
+                <div class="swatch-name">Paper</div>
+                <div class="swatch-codes">
+                    <b>HEX</b> #F1ECE0<br>
+                    <b>RGB</b> 241 · 236 · 224<br>
+                    <b>VAR</b> --paper
+                </div>
+                <div class="swatch-use">Page background. Warm cream tone evokes the printed manual.</div>
+            </div>
+            <div class="swatch">
+                <div class="swatch-chip" style="background: var(--mute-1);"></div>
+                <div class="swatch-name">Mute 1</div>
+                <div class="swatch-codes">
+                    <b>HEX</b> #6E6A60<br>
+                    <b>RGB</b> 110 · 106 · 96<br>
+                    <b>VAR</b> --mute-1
+                </div>
+                <div class="swatch-use">Secondary text, captions, deck copy.</div>
+            </div>
+            <div class="swatch">
+                <div class="swatch-chip" style="background: var(--mute-2);"></div>
+                <div class="swatch-name">Mute 2</div>
+                <div class="swatch-codes">
+                    <b>HEX</b> #B8B2A4<br>
+                    <b>RGB</b> 184 · 178 · 164<br>
+                    <b>VAR</b> --mute-2
+                </div>
+                <div class="swatch-use">Dividers, dashed rules, disabled states.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         §02 TYPOGRAPHY
+         ============================================================ -->
+    <section class="spec" id="type">
+        <div class="section-header">
+            <div class="section-num">§ 02.00<br>Typography</div>
+            <div>
+                <h2 class="section-title">Type</h2>
+                <p class="section-sub">A two-family system: <b>Archivo Narrow</b> for condensed editorial display, <b>Archivo</b> for body, <b>JetBrains Mono</b> for technical labels and code. Caps and tight tracking are house style for headlines.</p>
+            </div>
+        </div>
+
+        <div class="type-row">
+            <div class="type-label"><b>Display H1</b>Archivo Narrow<br>800 / 1.0 / -0.02em<br>UPPERCASE</div>
+            <div class="type-sample-h1">The Worm Returns</div>
+        </div>
+        <div class="type-row">
+            <div class="type-label"><b>Heading H2</b>Archivo Narrow<br>700 / 1.05 / -0.01em<br>UPPERCASE</div>
+            <div class="type-sample-h2">Mission Architecture</div>
+        </div>
+        <div class="type-row">
+            <div class="type-label"><b>Subhead H3</b>Archivo<br>700 / 1.2 / -0.005em<br>Sentence case</div>
+            <div class="type-sample-h3">A modernist approach to digital editorial</div>
+        </div>
+        <div class="type-row">
+            <div class="type-label"><b>Body</b>Archivo<br>400 / 1.6<br>Sentence case</div>
+            <div class="type-sample-body">In 1975, Richard Danne and Bruce Blackburn delivered to NASA a 90-page graphics standards manual that, for the next seventeen years, would govern every visual decision the agency made. It was a study in restraint: one wordmark, two colors, an inflexible grid. The system worked because every part of it knew exactly what it was for.</div>
+        </div>
+        <div class="type-row">
+            <div class="type-label"><b>Caption</b>JetBrains Mono<br>400 / 1.5 / 0.08em<br>UPPERCASE</div>
+            <div class="type-sample-cap">FIG. 01 — Logotype, primary configuration, 1976</div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         §03 COMPONENTS
+         ============================================================ -->
+    <section class="spec" id="components">
+        <div class="section-header">
+            <div class="section-num">§ 03.00<br>Components</div>
+            <div>
+                <h2 class="section-title">Components</h2>
+                <p class="section-sub">The minimum viable component library. Buttons, links, callouts, blockquotes, code, tags. Drop them in as-is or build outward from the same primitives.</p>
+            </div>
+        </div>
+
+        <div class="components">
+
+            <div class="panel">
+                <div class="panel-label">03.01 Buttons</div>
+                <p style="font-size: var(--t-sm); color: var(--mute-1); margin-bottom: var(--s-2);">Solid for primary action. Ghost for secondary. Hover lifts the button and casts a hard offset shadow — a nod to print registration.</p>
+                <a href="#" class="btn">Read Brief <span class="arrow">→</span></a>
+                <a href="#" class="btn btn-ghost">Subscribe <span class="arrow">→</span></a>
+            </div>
+
+            <div class="panel">
+                <div class="panel-label">03.02 Inline Link</div>
+                <p style="font-size: var(--t-sm); color: var(--mute-1); margin-bottom: var(--s-2);">Solid underline in NASA Blue. On hover, the link inverts into a block of color.</p>
+                <p>The system was first published in <a href="#" class="lnk">January 1976</a> and immediately set the standard for federal design language.</p>
+            </div>
+
+            <div class="panel">
+                <div class="panel-label">03.03 Callout</div>
+                <div class="callout">
+                    <div class="tag">Note · 03.03.A</div>
+                    <p style="margin-top: 6px;">Use callouts to flag editorial asides, source notes, or required reading. Limit to one per ~600 words.</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-label">03.04 Blockquote</div>
+                <blockquote>
+                    “The standards manual is a system, not a style. Style fades; systems persist.”
+                    <cite>R. Danne, 2017</cite>
+                </blockquote>
+            </div>
+
+            <div class="panel">
+                <div class="panel-label">03.05 Tags</div>
+                <p style="font-size: var(--t-sm); color: var(--mute-1); margin-bottom: var(--s-2);">Use mono-cased tag pills to categorize posts. Three states: outline, solid, accent.</p>
+                <div>
+                    <span class="tag-pill">Design</span>
+                    <span class="tag-pill solid">Editorial</span>
+                    <span class="tag-pill red">New</span>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-label">03.06 Code</div>
+                <p style="font-size: var(--t-sm); color: var(--mute-1); margin-bottom: var(--s-2);">Use <code class="inline">code.inline</code> for technical terms in prose, <code class="inline">pre.code</code> for blocks.</p>
+                <pre class="code"><span class="com">/* assign accent */</span>
+.headline {
+  color: <span class="var">var(--nasa-red)</span>;
+  font-weight: <span class="val">800</span>;
+}</pre>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ============================================================
+         §04 DEMO POST
+         ============================================================ -->
+    <section class="spec" id="post">
+        <div class="section-header">
+            <div class="section-num">§ 04.00<br>System in Use</div>
+            <div>
+                <h2 class="section-title">Demo Post</h2>
+                <p class="section-sub">A short article, set in the production system. This is what the entire blog should feel like in motion: typographic confidence, hard rules, restrained color.</p>
+            </div>
+        </div>
+
+        <article class="demo-post">
+            <div class="post-meta">
+                <span>Apr 26, 2026</span>
+                <span>·</span>
+                <span>Filed: Design</span>
+                <span>·</span>
+                <span>8 min read</span>
+            </div>
+
+            <h1>How Two Designers Gave a Federal Agency a <span class="accent">Voice</span></h1>
+            <p class="deck">For seventeen years, the NASA Graphics Standards Manual quietly imposed a Swiss-modernist worldview on America's space program — and accidentally became the most influential design document of the late 20th century.</p>
+
+            <p>In 1974, the National Endowment for the Arts launched the Federal Design Improvement Program. The premise was simple: federal agencies were drowning in inconsistent, often ugly, communications. Hire actual designers and impose order.</p>
+
+            <p>NASA was an early participant. Richard Danne and Bruce Blackburn — partners at a New York firm — won the commission. What they delivered was not a logo refresh. It was a complete <a href="#" class="lnk">system of visual identity</a>: typography, color, grid, photography, signage, vehicle livery, even the typography of the side of a rocket.</p>
+
+            <h2>One Wordmark, Two Colors</h2>
+            <div class="figure">
+                <span>FIG. 01 · Worm Logotype, 1976</span>
+            </div>
+            <figcaption>Original wordmark, redrawn from the 1976 manual, with crossbars removed from the A's.</figcaption>
+
+            <p>The new wordmark — quickly nicknamed "the worm" — was unapologetically modern. The crossbars were removed from the A's. The letters flowed into each other. It looked, depending on who you asked, either like the future or like a typewriter ribbon trying to escape.</p>
+
+            <div class="callout">
+                <div class="tag">Source</div>
+                <p style="margin-top: 6px;">The original 1976 manual is preserved in the Standards Manual reissue, available through Standards Manual NYC.</p>
+            </div>
+
+            <h2>Why It Still Works</h2>
+            <p>The system survives because it is, fundamentally, <b>boring in the right way</b>. It does not chase trends. It does not flex. It states facts in a clear voice and gets out of the way.</p>
+
+            <blockquote>
+                “Good design is as little design as possible.”
+                <cite>Dieter Rams (often quoted by Danne)</cite>
+            </blockquote>
+
+            <p>Forty-six years later, the principles port cleanly into editorial design on the web. A condensed display face. A reliable body face. Two accent colors. A grid. Hard rules. That's the entire system. Everything else is restraint.</p>
+        </article>
+    </section>
+
+    <!-- ============================================================
+         §05 CSS TOKENS
+         ============================================================ -->
+    <section class="spec" id="code">
+        <div class="section-header">
+            <div class="section-num">§ 05.00<br>Implementation</div>
+            <div>
+                <h2 class="section-title">Drop-in CSS</h2>
+                <p class="section-sub">Copy the token block below into your blog's stylesheet. Wire your existing components to the variables. Adjust the type scale to match your CMS, but keep the family pairings intact — they carry most of the identity.</p>
+            </div>
+        </div>
+
+        <pre class="code"><span class="com">/* ——— Tokens ——— */</span>
+:root {
+  <span class="com">/* color */</span>
+  <span class="var">--nasa-red</span>:     <span class="val">#FC3D21</span>;
+  <span class="var">--nasa-blue</span>:    <span class="val">#0B3D91</span>;
+  <span class="var">--ink</span>:          <span class="val">#0A0A0A</span>;
+  <span class="var">--paper</span>:        <span class="val">#F1ECE0</span>;
+  <span class="var">--mute-1</span>:       <span class="val">#6E6A60</span>;
+  <span class="var">--mute-2</span>:       <span class="val">#B8B2A4</span>;
+
+  <span class="com">/* type */</span>
+  <span class="var">--font-display</span>: <span class="val">"Archivo"</span>, sans-serif;
+  <span class="var">--font-narrow</span>:  <span class="val">"Archivo Narrow"</span>, sans-serif;
+  <span class="var">--font-mono</span>:    <span class="val">"JetBrains Mono"</span>, monospace;
+}
+
+<span class="com">/* ——— Base ——— */</span>
+body {
+  font-family: <span class="var">var(--font-display)</span>;
+  color: <span class="var">var(--ink)</span>;
+  background: <span class="var">var(--paper)</span>;
+}
+
+h1, h2 {
+  font-family: <span class="var">var(--font-narrow)</span>;
+  font-weight: <span class="val">800</span>;
+  text-transform: <span class="val">uppercase</span>;
+  letter-spacing: <span class="val">-0.02em</span>;
+}
+
+a { color: <span class="var">var(--nasa-blue)</span>; }
+a:hover { background: <span class="var">var(--nasa-blue)</span>; color: <span class="var">var(--paper)</span>; }
+
+<span class="com">/* ——— Editorial accents ——— */</span>
+.accent { color: <span class="var">var(--nasa-red)</span>; }
+hr { border: 0; border-top: <span class="val">1px</span> solid <span class="var">var(--ink)</span>; }
+blockquote {
+  border-block: <span class="val">1px</span> solid <span class="var">var(--ink)</span>;
+  font-family: <span class="var">var(--font-narrow)</span>;
+  text-transform: <span class="val">uppercase</span>;
+}</pre>
+
+        <div class="hairline"></div>
+
+        <div class="row-2" style="margin-top: var(--s-4);">
+            <div>
+                <div class="section-num" style="margin-bottom: 8px;">Do</div>
+                <ul style="list-style: none; font-size: var(--t-base); line-height: 1.7;">
+                    <li>— Reserve red for one element per screen</li>
+                    <li>— Use uppercase for H1 and H2 only</li>
+                    <li>— Set body in sentence case, generous leading</li>
+                    <li>— Use hairline rules between sections</li>
+                    <li>— Treat captions like instrument labels</li>
+                </ul>
+            </div>
+            <div>
+                <div class="section-num" style="margin-bottom: 8px;">Don't</div>
+                <ul style="list-style: none; font-size: var(--t-base); line-height: 1.7;">
+                    <li>— Tint red or blue with gradients</li>
+                    <li>— Mix in a third accent color</li>
+                    <li>— Use Inter, Roboto, or system defaults</li>
+                    <li>— Round button corners</li>
+                    <li>— Add drop shadows except as offset blocks</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         MASSIVE NUMBER (closing flourish)
+         ============================================================ -->
+    <div style="text-align: right; padding: var(--s-5) 0; border-bottom: 1px solid var(--rule);">
+        <div class="massive-num">76</div>
+        <div class="section-num" style="margin-top: -1rem;">End of Document</div>
+    </div>
+
+</div><!-- /.frame -->
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+    <div class="frame">
+        <div>
+            <h4>Document</h4>
+            <a href="#">76-001 · Identity</a>
+            <a href="#">76-002 · Editorial Voice</a>
+            <a href="#">76-003 · Photography</a>
+        </div>
+        <div>
+            <h4>Reference</h4>
+            <a href="#">Original NASA Manual</a>
+            <a href="#">Standards Manual NYC</a>
+            <a href="#">Type Specimens</a>
+        </div>
+        <div>
+            <h4>Issued</h4>
+            <a>Apr 26, 2026</a>
+            <a>Rev. 1.0</a>
+            <a style="color: var(--nasa-red); opacity: 1;">● Active</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

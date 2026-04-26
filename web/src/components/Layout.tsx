@@ -1,3 +1,4 @@
+import { FaGithub } from 'react-icons/fa';
 import { Link, Outlet } from 'react-router-dom';
 
 export default function Layout() {
@@ -5,19 +6,33 @@ export default function Layout() {
     <div className="app">
       <header className="site-header">
         <Link to="/" className="brand">
-          <span className="brand-mark">&gt;_</span>
-          <span className="brand-name">blog</span>
+          <img
+            className="brand-avatar"
+            src="https://github.com/geoffsee.png?size=96"
+            alt=""
+            width="32"
+            height="32"
+          />
+          <span className="brand-name">Geoff Seemueller</span>
         </Link>
       </header>
       <main className="site-main">
         <Outlet />
       </main>
       <footer className="site-footer">
-        <span>&copy; {new Date().getFullYear()}</span>
-        <span>&middot;</span>
-        <a href="https://github.com/geoffsee/blog" target="_blank" rel="noreferrer">
-          source on github
-        </a>
+        <div className="footer-links">
+          <span>&copy; {new Date().getFullYear()}</span>
+          <span>&middot;</span>
+          <a
+            href="https://github.com/geoffsee/blog"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Source on GitHub"
+            title="Source on GitHub"
+          >
+            <FaGithub aria-hidden="true" />
+          </a>
+        </div>
       </footer>
     </div>
   );

@@ -1,5 +1,6 @@
 import fm from 'front-matter';
-import { marked } from 'marked';
+import { Renderer, marked } from 'marked';
+import type { Tokens } from 'marked';
 
 export type PostMeta = {
   slug: string;
@@ -27,6 +28,29 @@ const raw = import.meta.glob('../../posts/*.md', {
 
 const BASE = import.meta.env.BASE_URL;
 
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+const renderer = new Renderer();
+const renderCode = renderer.code.bind(renderer);
+
+renderer.code = (token: Tokens.Code): string => {
+  const language = token.lang?.trim().split(/\s+/)[0];
+  if (language === 'mermaid') {
+    return `<figure class="mermaid-figure"><div class="mermaid">${escapeHtml(
+      token.text,
+    )}</div></figure>`;
+  }
+
+  return renderCode(token);
+};
+
 function rebaseAssetPaths(html: string): string {
   // Markdown references images as /assets/images/foo.png. When the site is
   // hosted under a sub-path (e.g. /blog/) those need to be prefixed so the
@@ -40,16 +64,28 @@ function slugFromPath(path: string): string {
   return base.replace(/^\d{4}-\d{2}-\d{2}-/, '');
 }
 
+function normalizeDate(value: unknown): string {
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return value.toISOString().slice(0, 10);
+  }
+  return String(value ?? '');
+}
+
+function dateTime(value: string): number {
+  const time = Date.parse(`${value}T00:00:00Z`);
+  return Number.isNaN(time) ? 0 : time;
+}
+
 function toPost(path: string, source: string): Post {
   const { attributes, body } = fm<Partial<PostMeta>>(source);
   const filename = path.split('/').pop()!;
   const slug = slugFromPath(path);
-  const html = rebaseAssetPaths(marked.parse(body, { async: false }) as string);
+  const html = rebaseAssetPaths(marked.parse(body, { async: false, renderer }) as string);
   return {
     slug,
     filename,
     title: attributes.title ?? slug,
-    date: String(attributes.date ?? ''),
+    date: normalizeDate(attributes.date),
     author: attributes.author,
     excerpt: attributes.excerpt,
     tags: attributes.tags,
@@ -64,7 +100,7 @@ function toPost(path: string, source: string): Post {
 export const posts: Post[] = Object.entries(raw)
   .map(([path, source]) => toPost(path, source))
   .filter((p) => p.published !== false)
-  .sort((a, b) => (a.date < b.date ? 1 : -1));
+  .sort((a, b) => dateTime(b.date) - dateTime(a.date));
 
 export const getPost = (slug: string): Post | undefined =>
   posts.find((p) => p.slug === slug);
