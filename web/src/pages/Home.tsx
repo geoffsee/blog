@@ -59,7 +59,7 @@ export default function Home() {
           >
             <FaLinkedin aria-hidden="true" />
           </a>
-          <a href="https://www.npmjs.com/~geoffsee" target="_blank" rel="noreferrer" aria-label="NPM">
+          <a href="https://www.npmjs.com/~seemueller-io" target="_blank" rel="noreferrer" aria-label="NPM">
             <SiNpm aria-hidden="true" />
           </a>
           <a
