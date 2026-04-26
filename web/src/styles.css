@@ -1,0 +1,270 @@
+:root {
+  --bg: #0b1020;
+  --bg-elev: #11172b;
+  --fg: #e6edf3;
+  --fg-muted: #94a3b8;
+  --accent: #90cdf4;
+  --accent-strong: #63b3ed;
+  --border: #1f2a44;
+  --code-bg: #0d1426;
+  --max-width: 720px;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--fg);
+}
+
+.brand:hover {
+  text-decoration: none;
+  color: var(--accent);
+}
+
+.brand-mark {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color: var(--accent);
+}
+
+.site-main {
+  flex: 1;
+  padding: 2rem 1.25rem;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+  color: var(--fg-muted);
+  font-size: 0.875rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-title {
+  margin-top: 0;
+  font-size: 1.75rem;
+}
+
+.post-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.post-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  transition: border-color 0.15s ease;
+}
+
+.post-card:hover {
+  border-color: var(--accent);
+}
+
+@media (min-width: 640px) {
+  .post-card {
+    grid-template-columns: 200px 1fr;
+  }
+}
+
+.post-card-thumb {
+  display: block;
+  background: var(--bg);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.post-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.post-card-body {
+  padding: 1rem 1.25rem;
+}
+
+.post-card-body h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  line-height: 1.35;
+}
+
+.post-card-body h2 a {
+  color: var(--fg);
+}
+
+.post-card-body h2 a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  color: var(--fg-muted);
+  font-size: 0.875rem;
+  margin: 0 0 0.5rem;
+}
+
+.tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.tag {
+  background: rgba(144, 205, 244, 0.12);
+  color: var(--accent);
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+.post-excerpt {
+  color: var(--fg-muted);
+  margin: 0.5rem 0 0.75rem;
+  line-height: 1.5;
+}
+
+.read-more {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.post-header h1 {
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.post-hero {
+  margin-top: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  width: 100%;
+}
+
+.post-body {
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.post-body h2 {
+  margin-top: 2rem;
+}
+
+.post-body h3 {
+  margin-top: 1.5rem;
+}
+
+.post-body pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+.post-body code {
+  background: var(--code-bg);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+.post-body pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.post-body blockquote {
+  border-left: 3px solid var(--accent);
+  margin-left: 0;
+  padding: 0.25rem 1rem;
+  color: var(--fg-muted);
+  background: rgba(144, 205, 244, 0.06);
+  border-radius: 0 8px 8px 0;
+}
+
+.post-body img {
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.post-body a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.post-footer {
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+.post-not-found {
+  text-align: center;
+  padding: 4rem 1rem;
+}
