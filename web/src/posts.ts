@@ -37,19 +37,42 @@ function escapeHtml(value: string): string {
     .replaceAll("'", '&#39;');
 }
 
-const renderer = new Renderer();
-const renderCode = renderer.code.bind(renderer);
+function slugifyHeading(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 
-renderer.code = (token: Tokens.Code): string => {
-  const language = token.lang?.trim().split(/\s+/)[0];
-  if (language === 'mermaid') {
-    return `<figure class="mermaid-figure"><div class="mermaid">${escapeHtml(
-      token.text,
-    )}</div></figure>`;
-  }
+function createMarkdownRenderer(): Renderer {
+  const renderer = new Renderer();
+  const renderCode = renderer.code.bind(renderer);
+  const headingCounts = new Map<string, number>();
 
-  return renderCode(token);
-};
+  renderer.code = (token: Tokens.Code): string => {
+    const language = token.lang?.trim().split(/\s+/)[0];
+    if (language === 'mermaid') {
+      return `<figure class="mermaid-figure"><div class="mermaid">${escapeHtml(
+        token.text,
+      )}</div></figure>`;
+    }
+
+    return renderCode(token);
+  };
+
+  renderer.heading = (token: Tokens.Heading): string => {
+    const html = renderer.parser.parseInline(token.tokens);
+    const baseSlug = slugifyHeading(token.text) || 'section';
+    const count = headingCounts.get(baseSlug) ?? 0;
+    headingCounts.set(baseSlug, count + 1);
+    const slug = count === 0 ? baseSlug : `${baseSlug}-${count}`;
+
+    return `<h${token.depth} id="${slug}">${html}</h${token.depth}>`;
+  };
+
+  return renderer;
+}
 
 function rebaseAssetPaths(html: string): string {
   // Markdown references images as /assets/images/foo.png. When the site is
@@ -80,7 +103,9 @@ function toPost(path: string, source: string): Post {
   const { attributes, body } = fm<Partial<PostMeta>>(source);
   const filename = path.split('/').pop()!;
   const slug = slugFromPath(path);
-  const html = rebaseAssetPaths(marked.parse(body, { async: false, renderer }) as string);
+  const html = rebaseAssetPaths(
+    marked.parse(body, { async: false, renderer: createMarkdownRenderer() }) as string,
+  );
   return {
     slug,
     filename,

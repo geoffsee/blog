@@ -783,6 +783,7 @@ img {
     right: auto;
     bottom: auto;
     margin-top: var(--s-3);
+    margin-left: auto;
     width: 72px;
     height: 72px;
   }
